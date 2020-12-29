@@ -1,0 +1,3 @@
+# leetcode
+
+This is just to record the java code for leetcode problems...
