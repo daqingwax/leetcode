@@ -38,3 +38,29 @@ class Solution {
         return(res);
     }
 }
+
+
+//with backtrack, check when to add ( and )...
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        int nb = 2 * n;
+        char[] chs = new char[nb];
+        List<String> res = new ArrayList<>();
+        dfs(res, chs, 0, 0, 0);
+        return(res);
+    }
+    public void dfs(List<String> res, char[] chs, int start, int open, int close){
+        if(start == chs.length){
+            res.add(String.valueOf(chs));
+            return;
+        }
+        if(open < chs.length / 2){
+            chs[start] = '(';
+            dfs(res, chs, start + 1, open + 1, close);
+        }
+        if(close < open){
+            chs[start] = ')';
+            dfs(res, chs, start + 1, open, close + 1);
+        }
+    }
+}
