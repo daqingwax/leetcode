@@ -36,3 +36,34 @@ class Solution {
         return((int)res);
     }
 }
+
+//dfs with memorization
+class Solution {
+    public int findPaths(int m, int n, int N, int i, int j) {
+        if(N == 0) return(0);
+        long [][][] dp = new long[m][n][N + 1];
+        for(long[][] arr: dp){
+            for(long[] subarr: arr){
+                Arrays.fill(subarr, -1);
+            }
+        }
+        long res = numPaths(m, n, N, i, j, dp);
+        return((int)res);
+    }
+    public long numPaths(int m, int n, int N, int i, int j, long[][][] dp){
+        if(i < 0 || i >= m || j < 0 || j >= n) return(1);
+        if(N == 0) return(0);
+        if(dp[i][j][N] >= 0) return(dp[i][j][N]);
+        int MOD = (int)(1e9 + 7);
+        int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+        long val = 0;
+        for(int[] dir : dirs){
+            int iii = i + dir[0];
+            int jjj = j + dir[1];
+            val += numPaths(m, n, N - 1, iii, jjj, dp);
+            val %= MOD;
+        }
+        dp[i][j][N] = val;
+        return(val);
+    }
+}
