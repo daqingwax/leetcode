@@ -52,3 +52,30 @@ class Solution {
         dfs(root.left, 0, right + 1, left);
     }
 }
+
+//dfs is much faster
+    public int longestZigZag(TreeNode root) {
+        if(root == null) return(0);
+        this.res = 0;
+        if(root.left == null && root.right == null) return(0);
+        dfs(root.left, 0, 0);
+        dfs(root.right, 1, 0);
+        return(this.res + 1);
+    }
+    public void dfs(TreeNode root, int dir, int dist){
+        if(root == null) return;
+        if(root.left == null && root.right == null){
+            res = Math.max(dist, res);
+            return;
+        }
+        if(root.left != null){
+            dfs(root.left, 0, dir == 1 ? dist + 1 : 0);
+        } else{
+            if(dir == 1) res = Math.max(dist , res);
+        }
+        if(root.right != null){
+            dfs(root.right, 1, dir == 0 ? dist + 1 : 0);
+        } else{
+            if(dir == 0) res = Math.max(dist , res);
+        }
+    }
