@@ -38,3 +38,46 @@ class Solution {
         return(res);
     }
 }
+
+class Solution {
+    public boolean splitArraySameAverage(int[] A) {
+        Arrays.sort(A);
+        
+        int n = A.length;
+        if(n == 1) return(false);
+        int sum = 0;
+        for(int i = 0; i < n; i++){
+            sum += A[i];
+        }
+        // int [][][] memo = new int[sum / 2 + 1][n / 2 + 1][n];
+        // for(int i = 0; i <= sum /2; i++){
+        //     for(int j = 0; j <= n / 2; j++){
+        //         Arrays.fill(memo[i][j], -1);
+        //     }
+        // }
+        
+        for(int len = 1; len <= n / 2; len++){
+            int rem = sum * len % n;
+            if(rem == 0){
+                int target = sum * len / n;
+                if(dfs(A, target, len, 0, new HashMap<>())) return(true);
+            }
+        }
+        return(false);
+    }
+    
+    public boolean dfs(int[] A, int target, int len, int start, Map<String, Boolean> memo){
+        int n = A.length;
+        if(len == 0) return(target == 0);
+        if(start >= n) return(false);
+        if(len + start > n) return(false);
+        if(target < 0) return(false);
+        if(A[start] > target) return(false);
+        String key = String.format("%d,%d,%d", target, len, start);
+        if(memo.containsKey(key)) return(memo.get(key));
+        boolean res;
+        res = dfs(A, target, len, start + 1, memo) || dfs(A, target - A[start], len - 1, start + 1, memo);
+        memo.put(key, res);
+        return(res);
+    }
+}
